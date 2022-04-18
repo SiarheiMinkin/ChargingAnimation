@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     var blobView: BlobView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let fr = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height - 100)
+        let fr = CGRect(x: 50, y: 300, width: 300, height: 300)
         blobView = BlobView(frame: fr)
         view.addSubview(blobView)
     }
