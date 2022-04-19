@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D590D4D32806CC550003627C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4D22806CC550003627C /* AppDelegate.swift */; };
-		D590D4D52806CC550003627C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4D42806CC550003627C /* SceneDelegate.swift */; };
 		D590D4D72806CC550003627C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4D62806CC550003627C /* ViewController.swift */; };
 		D590D4DA2806CC550003627C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D590D4D82806CC550003627C /* Main.storyboard */; };
 		D590D4DC2806CC590003627C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D590D4DB2806CC590003627C /* Assets.xcassets */; };
@@ -23,7 +22,6 @@
 /* Begin PBXFileReference section */
 		D590D4CF2806CC550003627C /* ChargingAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChargingAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D590D4D22806CC550003627C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D590D4D42806CC550003627C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D590D4D62806CC550003627C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D590D4D92806CC550003627C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D590D4DB2806CC590003627C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 				D5FEFE3E2809B91B00E6DA44 /* UIBezierPath-Smoothing.m */,
 				D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */,
 				D590D4D22806CC550003627C /* AppDelegate.swift */,
-				D590D4D42806CC550003627C /* SceneDelegate.swift */,
 				D590D4D62806CC550003627C /* ViewController.swift */,
 				D590D4D82806CC550003627C /* Main.storyboard */,
 				D590D4DB2806CC590003627C /* Assets.xcassets */,
@@ -165,7 +162,6 @@
 				D5FEFE422809B91C00E6DA44 /* UIBezierPath-Smoothing.m in Sources */,
 				D590D4D32806CC550003627C /* AppDelegate.swift in Sources */,
 				D590D4E72806CCF00003627C /* BlobLayer.swift in Sources */,
-				D590D4D52806CC550003627C /* SceneDelegate.swift in Sources */,
 				D5FEFE432809B91C00E6DA44 /* UIBezierPath-Points.m in Sources */,
 				D5FEFE3A28073C2800E6DA44 /* BlobView.swift in Sources */,
 			);
@@ -323,7 +319,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -355,7 +351,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
