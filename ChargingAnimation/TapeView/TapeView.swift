@@ -28,14 +28,14 @@ class TapeView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.black
         // adding animated circles
+        path = buildPath(points: Constants.pointsCount)
         for _ in 0...(Constants.linesCount - 1) {
             let tapeLayer = TapeLayer()
             tapeLayer.didFinishAnimation = { [weak self] layer in
                 self?.didFinishAnimation(layer: layer)
             }
             tapeLayer.frame = bounds
-            let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(Constants.tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-            tapeLayer.path = circlePath.cgPath
+            tapeLayer.path = path.cgPath
             
             layers.append(tapeLayer)
             
@@ -56,7 +56,7 @@ class TapeView: UIView {
 
             layer.addSublayer(gradient)
         }
-        path = buildPath(points: Constants.pointsCount)
+        
         
         // add central circle
         let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(Constants.tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
@@ -71,7 +71,7 @@ class TapeView: UIView {
         circleLayer.shadowRadius = 7
         circleLayer.shadowColor = Constants.gradientColor3
         circleLayer.shadowOpacity = 0.5
-        layer.addSublayer(circleLayer)
+      //  layer.addSublayer(circleLayer)
     }
     
     required init?(coder: NSCoder) {
@@ -79,26 +79,28 @@ class TapeView: UIView {
     }
     
     func didFinishAnimation(layer: TapeLayer) {
+        print("didFinishAnimation")
         if layer == layers.first {
             path = buildPath(points: Constants.pointsCount)
         }
-        layer.animateNewPath(newPath: path, layer: layer)
+        layer.animateNewPath(newPath: path, layer: layer, timeOffset: 0)
     }
     
     func startAnimating() {
         path = buildPath(points: Constants.pointsCount)
         
-        var timeInterval: TimeInterval = 0
+        var timeInterval: CFTimeInterval = 2
         layers.forEach { [weak self] layer in
-            if self?.layers.last != layer {
-                Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] timer in
-                    if let path = self?.path {
-                        layer.animateNewPath(newPath: path, layer: layer)
-                    }
-                    
-                }
-                timeInterval = timeInterval + 0.1
-            }
+           // if self?.layers.last != layer {
+//                Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] timer in
+//                    if let path = self?.path {
+//                        layer.animateNewPath(newPath: path, layer: layer, timeOffset: timeInterval)
+//                    }
+//
+//                }
+            layer.animateNewPath(newPath: path, layer: layer, timeOffset: timeInterval)
+                timeInterval = timeInterval - 0.1
+           // }
         }
     }
     

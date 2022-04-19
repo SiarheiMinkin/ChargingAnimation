@@ -20,7 +20,7 @@ class TapeLayer: CAShapeLayer, CAAnimationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func animateNewPath(newPath: UIBezierPath, layer: CAShapeLayer) {
+    func animateNewPath(newPath: UIBezierPath, layer: CAShapeLayer, timeOffset: CFTimeInterval) {
         let oldPath = layer.path
         layer.path = newPath.cgPath
         
@@ -31,6 +31,8 @@ class TapeLayer: CAShapeLayer, CAAnimationDelegate {
             pathAnimation.fromValue = oldPath
             pathAnimation.toValue = newPath.cgPath
             pathAnimation.duration = 2
+            pathAnimation.timeOffset = timeOffset
+            pathAnimation.repeatDuration = pathAnimation.duration - pathAnimation.timeOffset
             pathAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
             if (layer == self) {
                 pathAnimation.delegate = self
