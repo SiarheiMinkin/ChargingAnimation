@@ -12,8 +12,8 @@
 		D590D4DA2806CC550003627C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D590D4D82806CC550003627C /* Main.storyboard */; };
 		D590D4DC2806CC590003627C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D590D4DB2806CC590003627C /* Assets.xcassets */; };
 		D590D4DF2806CC590003627C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D590D4DD2806CC590003627C /* LaunchScreen.storyboard */; };
-		D590D4E72806CCF00003627C /* BlobLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4E62806CCF00003627C /* BlobLayer.swift */; };
-		D5FEFE3A28073C2800E6DA44 /* BlobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3928073C2800E6DA44 /* BlobView.swift */; };
+		D590D4E72806CCF00003627C /* TapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4E62806CCF00003627C /* TapeLayer.swift */; };
+		D5FEFE3A28073C2800E6DA44 /* TapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3928073C2800E6DA44 /* TapeView.swift */; };
 		D5FEFE3C2809788A00E6DA44 /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +25,8 @@
 		D590D4DB2806CC590003627C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D590D4DE2806CC590003627C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D590D4E02806CC590003627C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D590D4E62806CCF00003627C /* BlobLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobLayer.swift; sourceTree = "<group>"; };
-		D5FEFE3928073C2800E6DA44 /* BlobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobView.swift; sourceTree = "<group>"; };
+		D590D4E62806CCF00003627C /* TapeLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapeLayer.swift; sourceTree = "<group>"; };
+		D5FEFE3928073C2800E6DA44 /* TapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapeView.swift; sourceTree = "<group>"; };
 		D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,8 +67,8 @@
 				D590D4DB2806CC590003627C /* Assets.xcassets */,
 				D590D4DD2806CC590003627C /* LaunchScreen.storyboard */,
 				D590D4E02806CC590003627C /* Info.plist */,
-				D590D4E62806CCF00003627C /* BlobLayer.swift */,
-				D5FEFE3928073C2800E6DA44 /* BlobView.swift */,
+				D590D4E62806CCF00003627C /* TapeLayer.swift */,
+				D5FEFE3928073C2800E6DA44 /* TapeView.swift */,
 			);
 			path = ChargingAnimation;
 			sourceTree = "<group>";
@@ -148,8 +148,8 @@
 				D590D4D72806CC550003627C /* ViewController.swift in Sources */,
 				D5FEFE3C2809788A00E6DA44 /* UIBezierPath+Extension.swift in Sources */,
 				D590D4D32806CC550003627C /* AppDelegate.swift in Sources */,
-				D590D4E72806CCF00003627C /* BlobLayer.swift in Sources */,
-				D5FEFE3A28073C2800E6DA44 /* BlobView.swift in Sources */,
+				D590D4E72806CCF00003627C /* TapeLayer.swift in Sources */,
+				D5FEFE3A28073C2800E6DA44 /* TapeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

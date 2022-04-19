@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import CoreGraphics
 
 extension UIBezierPath {
     
@@ -37,7 +36,7 @@ extension UIBezierPath {
         if points.count < 4 {return (self.copy() as! UIBezierPath)}
         if !pathIsClosed {
             points.insert([points[0]], at: 0)
-            points.add(points.lastObject)
+            points.add(points.lastObject as Any)
         }
         
         let smoothedPath = UIBezierPath()
@@ -104,11 +103,9 @@ extension UIBezierPath {
         var bezierPoints = NSMutableArray()
         cgPath.apply(info: &bezierPoints, function: { info, element in
             
-            
             guard let resultingPoints = info?.assumingMemoryBound(to: NSMutableArray.self) else {
                         return
                     }
-            
                         // Retrieve the path element type and its points
                         let type = element.pointee.type
                         let points = element.pointee.points

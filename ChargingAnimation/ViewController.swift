@@ -8,16 +8,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var blobView: BlobView!
+    var tapeView: TapeView!
     override func viewDidLoad() {
         super.viewDidLoad()
         let fr = CGRect(x: 50, y: 300, width: 300, height: 300)
-        blobView = BlobView(frame: fr)
-        view.addSubview(blobView)
+        tapeView = TapeView(frame: fr)
+        view.addSubview(tapeView)
+        tapeView.startAnimating()
     }
 
     @IBAction func go(_ sender: Any) {
-        blobView.startAnimating()
+        tapeView.startAnimating()
     }
     
     
