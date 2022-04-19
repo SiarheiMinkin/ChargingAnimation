@@ -15,8 +15,6 @@
 		D590D4E72806CCF00003627C /* BlobLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D590D4E62806CCF00003627C /* BlobLayer.swift */; };
 		D5FEFE3A28073C2800E6DA44 /* BlobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3928073C2800E6DA44 /* BlobView.swift */; };
 		D5FEFE3C2809788A00E6DA44 /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */; };
-		D5FEFE422809B91C00E6DA44 /* UIBezierPath-Smoothing.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE3E2809B91B00E6DA44 /* UIBezierPath-Smoothing.m */; };
-		D5FEFE432809B91C00E6DA44 /* UIBezierPath-Points.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FEFE412809B91C00E6DA44 /* UIBezierPath-Points.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,11 +28,6 @@
 		D590D4E62806CCF00003627C /* BlobLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobLayer.swift; sourceTree = "<group>"; };
 		D5FEFE3928073C2800E6DA44 /* BlobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobView.swift; sourceTree = "<group>"; };
 		D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
-		D5FEFE3D2809B91B00E6DA44 /* ChargingAnimation-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChargingAnimation-Bridging-Header.h"; sourceTree = "<group>"; };
-		D5FEFE3E2809B91B00E6DA44 /* UIBezierPath-Smoothing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath-Smoothing.m"; sourceTree = "<group>"; };
-		D5FEFE3F2809B91C00E6DA44 /* UIBezierPath-Smoothing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath-Smoothing.h"; sourceTree = "<group>"; };
-		D5FEFE402809B91C00E6DA44 /* UIBezierPath-Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath-Points.h"; sourceTree = "<group>"; };
-		D5FEFE412809B91C00E6DA44 /* UIBezierPath-Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath-Points.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,10 +60,6 @@
 		D590D4D12806CC550003627C /* ChargingAnimation */ = {
 			isa = PBXGroup;
 			children = (
-				D5FEFE402809B91C00E6DA44 /* UIBezierPath-Points.h */,
-				D5FEFE412809B91C00E6DA44 /* UIBezierPath-Points.m */,
-				D5FEFE3F2809B91C00E6DA44 /* UIBezierPath-Smoothing.h */,
-				D5FEFE3E2809B91B00E6DA44 /* UIBezierPath-Smoothing.m */,
 				D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */,
 				D590D4D22806CC550003627C /* AppDelegate.swift */,
 				D590D4D62806CC550003627C /* ViewController.swift */,
@@ -80,7 +69,6 @@
 				D590D4E02806CC590003627C /* Info.plist */,
 				D590D4E62806CCF00003627C /* BlobLayer.swift */,
 				D5FEFE3928073C2800E6DA44 /* BlobView.swift */,
-				D5FEFE3D2809B91B00E6DA44 /* ChargingAnimation-Bridging-Header.h */,
 			);
 			path = ChargingAnimation;
 			sourceTree = "<group>";
@@ -159,10 +147,8 @@
 			files = (
 				D590D4D72806CC550003627C /* ViewController.swift in Sources */,
 				D5FEFE3C2809788A00E6DA44 /* UIBezierPath+Extension.swift in Sources */,
-				D5FEFE422809B91C00E6DA44 /* UIBezierPath-Smoothing.m in Sources */,
 				D590D4D32806CC550003627C /* AppDelegate.swift in Sources */,
 				D590D4E72806CCF00003627C /* BlobLayer.swift in Sources */,
-				D5FEFE432809B91C00E6DA44 /* UIBezierPath-Points.m in Sources */,
 				D5FEFE3A28073C2800E6DA44 /* BlobView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,7 +314,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.reitan.employee.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "ChargingAnimation/ChargingAnimation-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -360,7 +345,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.reitan.employee.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "ChargingAnimation/ChargingAnimation-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

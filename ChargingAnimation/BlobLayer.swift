@@ -30,7 +30,7 @@ class BlobLayer: CAShapeLayer, CAAnimationDelegate {
             var pathAnimation = CABasicAnimation(keyPath: "path")
             pathAnimation.fromValue = oldPath
             pathAnimation.toValue = newPath.cgPath
-            pathAnimation.duration = 10
+            pathAnimation.duration = 2
             pathAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
       //    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 

@@ -11,11 +11,17 @@ class BlobView: UIView {
 
     enum Constants {
         static let linesCount = 20
-        static let pointsCount = 10
+        static let pointsCount = 12
+        static let tapeWidth: CGFloat = 40
+        static let gradientColor1 = UIColor(red: 0.5294, green: 0.1961, blue: 0.8667, alpha: 1).cgColor
+        static let gradientColor2 = UIColor(red: 0.4235, green: 0.3529, blue: 0.9333, alpha: 1).cgColor
+        static let gradientColor3 = UIColor(red: 0.4784, green: 0.2706, blue: 0.898, alpha: 1).cgColor
+        static let gradientColor4 = UIColor(red: 0.2136, green: 0.1565, blue: 0.6063, alpha: 1).cgColor
     }
 
     var layers = [BlobLayer]()
     var path: UIBezierPath!
+    var delta:CGFloat = 0
     lazy var shortest_side = min(self.bounds.size.width, self.bounds.size.height)
     lazy var radius_base: CGFloat = CGFloat(roundf(Float(shortest_side) / 2))
     override init(frame: CGRect) {
@@ -26,24 +32,23 @@ class BlobView: UIView {
             blobLayer.didFinishAnimation = { [weak self] layer in
                 self?.didFinishAnimation(layer: layer)
             }
-            blobLayer.frame = frame
-    //        blobLayer.path = buildPath(points: Constants.pointsCount).cgPath
-            let circlePath = UIBezierPath(arcCenter: CGPoint(x: blobLayer.frame.size.width / 2, y: blobLayer.frame.size.width / 2), radius: 0, startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+            blobLayer.frame = bounds
+            let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: 0, startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
             blobLayer.path = circlePath.cgPath
             
             layers.append(blobLayer)
             
             blobLayer.shadowOffset = CGSize(width: 0, height: 0)
-            blobLayer.shadowRadius = 6
-            blobLayer.shadowColor = UIColor.green.cgColor
-            blobLayer.shadowOpacity = 0.5
+            blobLayer.shadowRadius = 10
+            blobLayer.shadowColor = Constants.gradientColor3
+            blobLayer.shadowOpacity = 0.8
             
             let gradient = CAGradientLayer()
-            gradient.frame = frame
-            gradient.colors = [UIColor(red: 0.5294, green: 0.1961, blue: 0.8667, alpha: 1).cgColor,
-                               UIColor(red: 0.4235, green: 0.3529, blue: 0.9333, alpha: 1).cgColor,
-                               UIColor(red: 0.4784, green: 0.2706, blue: 0.898, alpha: 1).cgColor,
-                               UIColor(red: 0.2136, green: 0.1565, blue: 0.6063, alpha: 1).cgColor]
+            gradient.frame = bounds
+            gradient.colors = [Constants.gradientColor1,
+                               Constants.gradientColor2,
+                               Constants.gradientColor3,
+                               Constants.gradientColor4]
             gradient.startPoint = CGPoint(x: 0, y: 1)
             gradient.endPoint = CGPoint(x: 1, y: 0)
             gradient.mask = blobLayer
@@ -53,6 +58,33 @@ class BlobView: UIView {
             
         }
         path = buildPath(points: Constants.pointsCount)
+        
+        let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radius_base - CGFloat(Constants.tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePath.cgPath
+            
+        // Change the fill color
+        shapeLayer.fillColor = UIColor.black.cgColor
+        shapeLayer.strokeColor = Constants.gradientColor4
+        shapeLayer.lineWidth = 1.0
+        shapeLayer.shadowOffset = CGSize(width: 0, height: 0)
+        shapeLayer.shadowRadius = 7
+        shapeLayer.shadowColor = Constants.gradientColor3
+        shapeLayer.shadowOpacity = 0.5
+        
+        
+//        let gradient = CAGradientLayer()
+//        gradient.frame = bounds
+//        gradient.colors = [Constants.gradientColor1,
+//                           Constants.gradientColor2,
+//                           Constants.gradientColor3,
+//                           Constants.gradientColor4]
+//        gradient.startPoint = CGPoint(x: 0, y: 1)
+//        gradient.endPoint = CGPoint(x: 1, y: 0)
+//        gradient.mask = shapeLayer
+
+  //      layer.addSublayer(shapeLayer)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -67,17 +99,19 @@ class BlobView: UIView {
     }
     
     func startAnimating() {
-        var delay: Double = 0
         path = buildPath(points: Constants.pointsCount)
-        let time: DispatchTime = .now()
-        layers.forEach { layer in
-            DispatchQueue.main.asyncAfter(deadline: time + delay) { [weak self] in
-                if let path = self?.path {
-                    layer.animateNewPath(newPath: path, layer: layer)
+        
+        var timeInterval: TimeInterval = 0
+        layers.forEach { [weak self] layer in
+            if self?.layers.last != layer {
+                Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] timer in
+                    if let path = self?.path {
+                        layer.animateNewPath(newPath: path, layer: layer)
+                    }
+                    
                 }
-                
+                timeInterval = timeInterval + 0.1
             }
-            delay += 0.5
         }
     }
     
@@ -90,28 +124,27 @@ class BlobView: UIView {
 
         var angle: CGFloat = 0
         var radius: CGFloat = 0
-        var step: Int = 0
         var x: CGFloat = 0
         var y: CGFloat = 0
         var aPoint = CGPoint.zero
         
-          
+        delta += (Double.pi * 1.5 / Double(points))
         for step in 0...(points - 1) {
             
             //Step around a circle
-            angle = CGFloat(Double.pi * 2) / CGFloat(points) * CGFloat(step) + (Double.pi / 4 * 2);
+            angle = CGFloat(Double.pi * 2) / CGFloat(points) * CGFloat(step) + delta
             
             //randomize the angle slightly
             
-            var random_val: CGFloat = randomFloatPlusOrMinus(max_value: Double.pi / Double(points) * 0.1)
-            angle += random_val
-            
-            
-            radius = radius_base
-            random_val = randomFloatPlusOrMinus(max_value: radius_base / 3)
-            radius += random_val
-            x = CGFloat(roundf(Float(CGFloat(cosf(Float(angle))) * radius + CGFloat(shortest_side / 2))))
-            y = CGFloat(roundf(Float(CGFloat(sinf(Float(angle))) * radius + CGFloat(shortest_side / 2))))
+           // angle += Double.random(in: 0...(Double.pi / Double(Constants.pointsCount)))
+//            if (step % 2) == 0 {
+//                radius = radius_base
+//            } else {
+//                radius = radius_base - Constants.tapeWidth
+//            }
+            radius = radius_base - CGFloat.random(in: 0...Constants.tapeWidth)
+            x = CGFloat(roundf(Float(CGFloat(cosf(Float(angle))) * radius + CGFloat(frame.size.width / 2))))
+            y = CGFloat(roundf(Float(CGFloat(sinf(Float(angle))) * radius + CGFloat(frame.size.height / 2))))
             
             aPoint = CGPoint(x: x, y: y)
             randomPoints.append(aPoint)
@@ -126,17 +159,7 @@ class BlobView: UIView {
         
         //Now convert our polygon path to a curved shape
         path.close()
-        path = path.smoothedPath(16)
+        path = path.smoothedPath(granularity: 10)!
         return path
-    }
-    
-    func randomFloatPlusOrMinus(max_value: CGFloat) -> CGFloat {
-       return randomFloat(max_value: (max_value * 1)) - max_value
-    }
-    
-    func randomFloat(max_value: CGFloat) -> CGFloat {
-        var aRandom: CGFloat = CGFloat((arc4random() % 1000000001)) / 2
-        aRandom = (aRandom * max_value) / 1000000000
-        return aRandom
     }
 }
