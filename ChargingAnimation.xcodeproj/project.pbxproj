@@ -60,17 +60,25 @@
 		D590D4D12806CC550003627C /* ChargingAnimation */ = {
 			isa = PBXGroup;
 			children = (
-				D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */,
+				D5EA77C6280EABF900B4FDE2 /* TapeView */,
 				D590D4D22806CC550003627C /* AppDelegate.swift */,
 				D590D4D62806CC550003627C /* ViewController.swift */,
 				D590D4D82806CC550003627C /* Main.storyboard */,
 				D590D4DB2806CC590003627C /* Assets.xcassets */,
 				D590D4DD2806CC590003627C /* LaunchScreen.storyboard */,
 				D590D4E02806CC590003627C /* Info.plist */,
+			);
+			path = ChargingAnimation;
+			sourceTree = "<group>";
+		};
+		D5EA77C6280EABF900B4FDE2 /* TapeView */ = {
+			isa = PBXGroup;
+			children = (
+				D5FEFE3B2809788A00E6DA44 /* UIBezierPath+Extension.swift */,
 				D590D4E62806CCF00003627C /* TapeLayer.swift */,
 				D5FEFE3928073C2800E6DA44 /* TapeView.swift */,
 			);
-			path = ChargingAnimation;
+			path = TapeView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
