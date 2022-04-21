@@ -18,21 +18,30 @@ class TapeView: UIView {
         static let gradientColor3 = UIColor(red: 0.4784, green: 0.2706, blue: 0.898, alpha: 1).cgColor
         static let gradientColor4 = UIColor(red: 0.2136, green: 0.1565, blue: 0.6063, alpha: 1).cgColor
     }
-
+    
+    enum State {
+        case waiting
+        case charging
+        case initial
+    }
+    
+    var currentState = State.initial
+    var isStateChanging = false
     var layers = [TapeLayer]()
     var path: UIBezierPath!
     var delta:CGFloat = 0
-    lazy var shortestSide: CGFloat = min(self.bounds.size.width, self.bounds.size.height)
-    lazy var radiusBase: CGFloat = CGFloat(roundf(Float(shortestSide) / 2))
+    lazy var shortestSide: CGFloat = 300//min(self.bounds.size.width, self.bounds.size.height)
+    lazy var radiusBase: CGFloat = 150// CGFloat = CGFloat(roundf(Float(shortestSide) / 2))
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.black
+
         // adding animated circles
         path = buildPath(points: Constants.pointsCount)
         for _ in 0...(Constants.linesCount - 1) {
             let tapeLayer = TapeLayer()
-            tapeLayer.didFinishAnimation = { [weak self] layer in
-                self?.didFinishAnimation(layer: layer)
+            tapeLayer.didFinishAnimation = { [weak self] (layer, flag) in
+                self?.didFinishTapeAnimation(layer: layer, flag: flag)
             }
             tapeLayer.frame = bounds
             tapeLayer.path = path.cgPath
@@ -57,7 +66,6 @@ class TapeView: UIView {
             layer.addSublayer(gradient)
         }
         
-        
         // add central circle
         let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(Constants.tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
         let circleLayer = CAShapeLayer()
@@ -72,24 +80,88 @@ class TapeView: UIView {
         circleLayer.shadowColor = Constants.gradientColor3
         circleLayer.shadowOpacity = 0.5
       //  layer.addSublayer(circleLayer)
+        addNotifications()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func didFinishAnimation(layer: TapeLayer) {
+    deinit {
+        removeNotifications()
+    }
+    
+    func addNotifications() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+    }
+    
+    @objc func appMovedToBackground() {
+        layers.forEach({ layer in
+            layer.removeAllAnimations()
+        })
+        layer.removeAllAnimations()
+    }
+    
+    @objc func appMovedToForeground() {
+        goToState(state: .waiting)
+    }
+    
+    func removeNotifications() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
+    }
+    
+    func goToState(state: State) {
+        currentState = state
+        switch state {
+        case .waiting:
+            isStateChanging = true
+            layer.removeAllAnimations()
+            let animation = CABasicAnimation(keyPath: "transform.scale")
+            animation.delegate = self
+            animation.fromValue = layer.value(forKeyPath: "transform.scale")
+            animation.toValue = 0
+            animation.duration = 0.5
+            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+            animation.fillMode = CAMediaTimingFillMode.forwards
+            animation.isRemovedOnCompletion = false
+            layer.add(animation, forKey: "transform.scale")
+        case .charging:
+            isStateChanging = true
+            layers.forEach({ layer in
+                layer.removeAllAnimations()
+            })
+            layer.removeAllAnimations()
+            showTapeAnimating()
+            isStateChanging = false
+            print(isStateChanging)
+        case .initial:
+            ()
+        }
+    }
+    
+    func didFinishTapeAnimation(layer: TapeLayer, flag: Bool) {
+        guard flag else {return}
         print("didFinishAnimation")
         if layer == layers.first {
             path = buildPath(points: Constants.pointsCount)
         }
-        layer.animateNewPath(newPath: path, layer: layer, timeOffset: 0)
+        layer.animateNewPath(newPath: path, timeOffset: 0)
     }
     
-    func startAnimating() {
-        path = buildPath(points: Constants.pointsCount)
+    func showTapeAnimating() {
         
+        
+        path = buildPath(points: Constants.pointsCount)
         var timeInterval: CFTimeInterval = 2
+        layers.forEach { layer in
+            layer.path = path.cgPath
+        }
+        
+        path = buildPath(points: Constants.pointsCount)
         layers.forEach { [weak self] layer in
            // if self?.layers.last != layer {
 //                Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] timer in
@@ -98,7 +170,7 @@ class TapeView: UIView {
 //                    }
 //
 //                }
-            layer.animateNewPath(newPath: path, layer: layer, timeOffset: timeInterval)
+            layer.animateNewPath(newPath: path, timeOffset: timeInterval)
                 timeInterval = timeInterval - 0.1
            // }
         }
@@ -131,5 +203,15 @@ class TapeView: UIView {
         path.close()
         path = path.smoothedPath(granularity: 10)!
         return path
+    }
+}
+
+extension TapeView: CAAnimationDelegate {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        
+        if currentState == .waiting {
+            goToState(state: .charging)
+         //   isStateChanging = false
+        }
     }
 }

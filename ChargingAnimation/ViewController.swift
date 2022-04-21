@@ -14,10 +14,11 @@ class ViewController: UIViewController {
         let fr = CGRect(x: 50, y: 300, width: 300, height: 300)
         tapeView = TapeView(frame: fr)
         view.addSubview(tapeView)
+        tapeView.showTapeAnimating()
     }
 
     @IBAction func go(_ sender: Any) {
-        tapeView.startAnimating()
+        tapeView.goToState(state: .waiting)
     }
     
     
