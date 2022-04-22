@@ -26,10 +26,10 @@ class TapeView: UIView {
     }
     
     var currentState = State.initial
-    var isStateChanging = false
     var layers = [TapeLayer]()
     var path: UIBezierPath!
     var delta:CGFloat = 0
+    let circleLayer = CAShapeLayer()
     lazy var shortestSide: CGFloat = 300//min(self.bounds.size.width, self.bounds.size.height)
     lazy var radiusBase: CGFloat = 150// CGFloat = CGFloat(roundf(Float(shortestSide) / 2))
     override init(frame: CGRect) {
@@ -47,11 +47,11 @@ class TapeView: UIView {
             tapeLayer.path = path.cgPath
             
             layers.append(tapeLayer)
-            
+            tapeLayer.fillColor = UIColor.clear.cgColor
             tapeLayer.shadowOffset = CGSize(width: 0, height: 0)
-            tapeLayer.shadowRadius = 10
+            tapeLayer.shadowRadius = 1
             tapeLayer.shadowColor = Constants.gradientColor3
-            tapeLayer.shadowOpacity = 0.8
+            tapeLayer.shadowOpacity = 1
             
             let gradient = CAGradientLayer()
             gradient.frame = bounds
@@ -68,18 +68,30 @@ class TapeView: UIView {
         
         // add central circle
         let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(Constants.tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-        let circleLayer = CAShapeLayer()
         circleLayer.path = circlePath.cgPath
             
         // Change the fill color
         circleLayer.fillColor = UIColor.black.cgColor
+        circleLayer.backgroundColor = UIColor.black.cgColor
         circleLayer.strokeColor = Constants.gradientColor4
         circleLayer.lineWidth = 1.0
         circleLayer.shadowOffset = CGSize(width: 0, height: 0)
         circleLayer.shadowRadius = 7
         circleLayer.shadowColor = Constants.gradientColor3
         circleLayer.shadowOpacity = 0.5
-      //  layer.addSublayer(circleLayer)
+        layer.addSublayer(circleLayer)
+        
+        let textLayer = CATextLayer()
+        let textRect = "Charging".boundingRect(with: circleLayer.bounds.size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue", size: 20)], context: nil)
+        textLayer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: textRect.height)
+        textLayer.position = CGPoint(x: layer.frame.width / 2, y: layer.frame.height / 2)
+        textLayer.string = "Charging"
+        textLayer.foregroundColor = UIColor.white.cgColor
+        textLayer.alignmentMode = .center
+        textLayer.fontSize = 20
+        
+        circleLayer.addSublayer(textLayer)
+        
         addNotifications()
     }
     
@@ -118,7 +130,6 @@ class TapeView: UIView {
         currentState = state
         switch state {
         case .waiting:
-            isStateChanging = true
             layer.removeAllAnimations()
             let animation = CABasicAnimation(keyPath: "transform.scale")
             animation.delegate = self
@@ -130,14 +141,14 @@ class TapeView: UIView {
             animation.isRemovedOnCompletion = false
             layer.add(animation, forKey: "transform.scale")
         case .charging:
-            isStateChanging = true
             layers.forEach({ layer in
                 layer.removeAllAnimations()
             })
             layer.removeAllAnimations()
             showTapeAnimating()
-            isStateChanging = false
-            print(isStateChanging)
+            showWaveAnimation()
+            
+            
         case .initial:
             ()
         }
@@ -152,9 +163,34 @@ class TapeView: UIView {
         layer.animateNewPath(newPath: path, timeOffset: 0)
     }
     
+    
+    func showWaveAnimation() {
+        let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: 0, startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        var animationLayers = [TapeLayer]()
+        for _ in 0...5 {
+            let tapeLayer = TapeLayer()
+            animationLayers.append(tapeLayer)
+            
+            layers.append(tapeLayer)
+            tapeLayer.fillColor = UIColor.clear.cgColor
+            tapeLayer.strokeColor = Constants.gradientColor3
+            
+            tapeLayer.path = circlePath.cgPath
+            tapeLayer.didFinishAnimation = { (layer, flag) in
+                layer.removeFromSuperlayer()
+            }
+            circleLayer.addSublayer(tapeLayer)
+        }
+        var timeInterval: CFTimeInterval = 0.5
+        animationLayers.forEach { [weak self] layer in
+            layer.animateNewPath(newPath: path, timeOffset: timeInterval, duration: 0.5)
+            layer.animateOpacity(timeOffset: timeInterval, duration: 0.5)
+            timeInterval = timeInterval - 0.1
+        }
+        
+    }
+    
     func showTapeAnimating() {
-        
-        
         path = buildPath(points: Constants.pointsCount)
         var timeInterval: CFTimeInterval = 2
         layers.forEach { layer in
@@ -211,7 +247,6 @@ extension TapeView: CAAnimationDelegate {
         
         if currentState == .waiting {
             goToState(state: .charging)
-         //   isStateChanging = false
         }
     }
 }
