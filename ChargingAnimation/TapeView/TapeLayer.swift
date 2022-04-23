@@ -40,19 +40,7 @@ class TapeLayer: CAShapeLayer, CAAnimationDelegate {
         }
     }
 
-    func animateOpacity(timeOffset: CFTimeInterval, duration: CFTimeInterval = 2) {
-            let pathAnimation = CABasicAnimation(keyPath: "opacity")
-            pathAnimation.fromValue = 0
-            pathAnimation.toValue = 1
-            pathAnimation.duration = duration
-            pathAnimation.timeOffset = timeOffset
-            pathAnimation.repeatDuration = pathAnimation.duration - pathAnimation.timeOffset
-            pathAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
-            pathAnimation.repeatCount = 0
-            pathAnimation.delegate = self
-            self.add(pathAnimation, forKey: "opacityAnimation")
-        }
-    
+
     //CAAnimation delegate methods
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         didFinishAnimation?(self, flag)

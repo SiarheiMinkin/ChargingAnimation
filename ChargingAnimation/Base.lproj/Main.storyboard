@@ -20,9 +20,18 @@
                                 <rect key="frame" x="50" y="82" width="87" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Start"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Charging"/>
                                 <connections>
-                                    <action selector="go:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ufA-BU-0yj"/>
+                                    <action selector="charging:" destination="BYZ-38-t0r" eventType="touchUpInside" id="42J-SE-bkd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y90-eR-frf">
+                                <rect key="frame" x="176" y="82" width="87" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Waiting"/>
+                                <connections>
+                                    <action selector="waiting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8up-Sl-jyR"/>
                                 </connections>
                             </button>
                         </subviews>
