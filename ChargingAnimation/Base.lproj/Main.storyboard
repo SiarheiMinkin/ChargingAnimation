@@ -16,27 +16,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ydf-gC-Z67">
-                                <rect key="frame" x="50" y="82" width="87" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Charging"/>
-                                <connections>
-                                    <action selector="charging:" destination="BYZ-38-t0r" eventType="touchUpInside" id="42J-SE-bkd"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y90-eR-frf">
-                                <rect key="frame" x="176" y="82" width="87" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Waiting"/>
-                                <connections>
-                                    <action selector="waiting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8up-Sl-jyR"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZHK-8B-mGK">
+                                <rect key="frame" x="120" y="82" width="174" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ydf-gC-Z67">
+                                        <rect key="frame" x="0.0" y="0.0" width="83" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Charging"/>
+                                        <connections>
+                                            <action selector="charging:" destination="BYZ-38-t0r" eventType="touchUpInside" id="42J-SE-bkd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y90-eR-frf">
+                                        <rect key="frame" x="91" y="0.0" width="83" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Waiting"/>
+                                        <connections>
+                                            <action selector="waiting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8up-Sl-jyR"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZHK-8B-mGK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UIX-7I-z01"/>
+                            <constraint firstItem="ZHK-8B-mGK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="38" id="xMb-qU-gvF"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

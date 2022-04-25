@@ -16,6 +16,7 @@ class TapeView: UIView {
         static let gradientColor2 = UIColor(red: 0.4235, green: 0.3529, blue: 0.9333, alpha: 1).cgColor
         static let gradientColor3 = UIColor(red: 0.4784, green: 0.2706, blue: 0.898, alpha: 1).cgColor
         static let gradientColor4 = UIColor(red: 0.2136, green: 0.1565, blue: 0.6063, alpha: 1).cgColor
+        static let font = UIFont.boldSystemFont(ofSize: 40)
     }
     
     enum State {
@@ -41,35 +42,6 @@ class TapeView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.black
         configureLayers()
-
-
-        
-//        // add central circle
-//        let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-//        circleLayer.path = circlePath.cgPath
-//
-//        // Change the fill color
-//        circleLayer.fillColor = UIColor.black.cgColor
-//        circleLayer.backgroundColor = UIColor.black.cgColor
-//        circleLayer.strokeColor = Constants.gradientColor4
-//        circleLayer.lineWidth = 1.0
-//        circleLayer.shadowOffset = CGSize(width: 0, height: 0)
-//        circleLayer.shadowRadius = 10
-//        circleLayer.shadowColor = Constants.gradientColor3
-//        circleLayer.shadowOpacity = 0.7
-//        layer.addSublayer(circleLayer)
-//
-//        let textLayer = CATextLayer()
-//        let textRect = "Charging".boundingRect(with: circleLayer.bounds.size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 20)], context: nil)
-//        textLayer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: textRect.height)
-//        textLayer.position = CGPoint(x: layer.frame.width / 2, y: layer.frame.height / 2)
-//        textLayer.string = "Charging"
-//        textLayer.foregroundColor = UIColor.white.cgColor
-//        textLayer.alignmentMode = .center
-//        textLayer.fontSize = 20
-//
-//        circleLayer.addSublayer(textLayer)
-        
         addNotifications()
     }
     
@@ -81,28 +53,25 @@ class TapeView: UIView {
         removeNotifications()
     }
     
+    // MARK: - Notifications
     func addNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-
+    }
+    
+    func removeNotifications() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
     }
     
     @objc func appMovedToBackground() {
-//        tapeLayers.forEach({ layer in
-//            layer.removeAllAnimations()
-//        })
         layer.removeAllAnimations()
         tapeContainerLayer.isHidden = true
     }
     
     @objc func appMovedToForeground() {
         goToState(state: currentState)
-    }
-    
-    func removeNotifications() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self)
     }
     
     func configureLayers() {
@@ -150,7 +119,6 @@ class TapeView: UIView {
         let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: radiusBase - CGFloat(tapeWidth / 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
         circleLayer.path = circlePath.cgPath
             
-        // Change the fill color
         circleLayer.fillColor = UIColor.black.cgColor
         circleLayer.backgroundColor = UIColor.clear.cgColor
         circleLayer.strokeColor = Constants.gradientColor4
@@ -160,27 +128,22 @@ class TapeView: UIView {
         circleLayer.shadowRadius = 10
         circleLayer.shadowColor = Constants.gradientColor3
         circleLayer.shadowOpacity = 0.7
-      //  layer.addSublayer(circleLayer)
         
         textLayer = CATextLayer()
-        let textRect = "Waiting".boundingRect(with: circleLayer.bounds.size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 20)], context: nil)
+        let textRect = "Waiting".boundingRect(with: circleLayer.bounds.size, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : Constants.font], context: nil)
         textLayer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: textRect.height)
         textLayer.position = CGPoint(x: layer.frame.width / 2, y: layer.frame.height / 2)
-        textLayer.string = "Charging"
+        textLayer.string = "Waiting"
         textLayer.foregroundColor = UIColor.white.cgColor
         textLayer.alignmentMode = .center
-        textLayer.fontSize = 20
+        textLayer.font = Constants.font
         circleLayer.addSublayer(textLayer)
         layer.addSublayer(circleLayer)
     }
     
     func goToState(state: State) {
         layer.removeAllAnimations()
-       // layer.sublayers?.removeAll()
-        
         if currentState != state {
-
-            
             let animation = CABasicAnimation(keyPath: "transform.scale")
             animation.delegate = self
             animation.fromValue = layer.value(forKeyPath: "transform.scale")
@@ -194,37 +157,30 @@ class TapeView: UIView {
             layer.opacity = 0
             circleLayer.opacity = 0
         }
-
         
         switch state {
         case .waiting:
-
             if currentState == .initial {
                 circleLayer.isHidden = false
+                tapeContainerLayer.isHidden = true
+                
             }
         case .charging:
             if currentState == .waiting {
                 circleLayer.isHidden = false
+                tapeContainerLayer.isHidden = true
             } else {
                 showTapeAnimating(fromInitialState: false)
             }
-//            tapeLayers.forEach({ layer in
-//                layer.removeAllAnimations()
-//            })
-//            layer.removeAllAnimations()
-//            showTapeAnimating()
-        //    showWaveAnimation()
-            
-            
         case .initial:
-            ()
+            circleLayer.isHidden = true
+            tapeContainerLayer.isHidden = true
         }
         currentState = state
     }
     
     func didFinishTapeAnimation(layer: TapeLayer, flag: Bool) {
         guard flag else {return}
-        print("didFinishAnimation")
         if layer == tapeLayers.first {
             path = buildPath(points: Constants.pointsCount)
         }
@@ -239,7 +195,7 @@ class TapeView: UIView {
         let circlePath = UIBezierPath(arcCenter:  CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: 0, startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
         var animationLayers = [TapeLayer]()
         let waveCount = 5
-        var duration: CFTimeInterval = 0.5
+        let duration: CFTimeInterval = 0.5
         var timeInterval: CFTimeInterval = duration
         
         for _ in 0...waveCount {
@@ -256,37 +212,19 @@ class TapeView: UIView {
             waveContainerLayer.addSublayer(tapeLayer)
         }
        let step = duration / Double(waveCount)
-        animationLayers.forEach { [weak self] layer in
+        animationLayers.forEach { layer in
             timeInterval = timeInterval - step
             layer.animateNewPath(newPath: path, timeOffset: timeInterval, duration: duration)
             //layer.animateOpacity(timeOffset: timeInterval, duration: 0.5)
         }
-        
     }
     
     func showTapeAnimating(fromInitialState: Bool) {
-        var duration: CFTimeInterval = 2
-        
-//        if fromInitialState {
-//            path = buildPath(points: Constants.pointsCount)
-//            for index in 0..<tapeLayers.count {
-//                let layer = tapeLayers[index]
-//                let linesCount = 7
-//                if index > tapeLayers.count - linesCount {
-//                    let scale: CGFloat = 0.7//CGFloat(((tapeLayers.count - index) / 2) / linesCount)
-//                    let initialPath = path!
-//                    initialPath.scaleAroundCenter(factor: scale)
-//                    layer.path = initialPath.cgPath
-//                } else {
-//                    layer.path = path.cgPath
-//                }
-//            }
-//            duration = 0.7
-//        }
+        let duration: CFTimeInterval = 2
         var timeInterval: CFTimeInterval = duration
         tapeContainerLayer.isHidden = false
         path = buildPath(points: Constants.pointsCount)
-        tapeLayers.forEach { [weak self] layer in
+        tapeLayers.forEach { layer in
             timeInterval = timeInterval - timeInterval / Double(Constants.linesCount) * 2
             layer.animateNewPath(newPath: path, timeOffset: timeInterval, duration: duration)
         }
@@ -369,3 +307,4 @@ extension UIBezierPath {
     }
 
 }
+
