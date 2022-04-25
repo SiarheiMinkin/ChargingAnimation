@@ -57,6 +57,39 @@ class TapeView: UIView {
         removeNotifications()
     }
     
+    // MARK: - Public methods
+    public func goToState(state: State) {
+        layer.removeAllAnimations()
+        if currentState != state {
+            let animation = CABasicAnimation(keyPath: "transform.scale")
+            animation.delegate = self
+            animation.fromValue = layer.value(forKeyPath: "transform.scale")
+            animation.toValue = 0
+            animation.duration = 0.5
+            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+            animation.fillMode = CAMediaTimingFillMode.forwards
+            animation.isRemovedOnCompletion = false
+            layer.add(animation, forKey: "transform.scale.min")
+            layer.animateOpacity(timeOffset: 0, duration: 0.5, fromValue: 1, toValue: 0)
+            layer.opacity = 0
+            circleLayer.opacity = 0
+        }
+        
+        switch state {
+        case .waiting:
+            circleLayer.isHidden = false
+            tapeContainerLayer.isHidden = true
+        case .charging:
+            if currentState == .waiting {
+            circleLayer.isHidden = false
+            tapeContainerLayer.isHidden = true
+            } else {
+                showTapeAnimation()
+            }
+        }
+        currentState = state
+    }
+    
     // MARK: - Notifications
     private func addNotifications() {
         let notificationCenter = NotificationCenter.default
@@ -144,38 +177,6 @@ class TapeView: UIView {
         textLayer.font = Constants.font
         circleLayer.addSublayer(textLayer)
         layer.addSublayer(circleLayer)
-    }
-    
-    public func goToState(state: State) {
-        layer.removeAllAnimations()
-        if currentState != state {
-            let animation = CABasicAnimation(keyPath: "transform.scale")
-            animation.delegate = self
-            animation.fromValue = layer.value(forKeyPath: "transform.scale")
-            animation.toValue = 0
-            animation.duration = 0.5
-            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-            animation.fillMode = CAMediaTimingFillMode.forwards
-            animation.isRemovedOnCompletion = false
-            layer.add(animation, forKey: "transform.scale.min")
-            layer.animateOpacity(timeOffset: 0, duration: 0.5, fromValue: 1, toValue: 0)
-            layer.opacity = 0
-            circleLayer.opacity = 0
-        }
-        
-        switch state {
-        case .waiting:
-            circleLayer.isHidden = false
-            tapeContainerLayer.isHidden = true
-        case .charging:
-            if currentState == .waiting {
-            circleLayer.isHidden = false
-            tapeContainerLayer.isHidden = true
-            } else {
-                showTapeAnimation()
-            }
-        }
-        currentState = state
     }
     
    private func didFinishTapeAnimation(layer: TapeLayer, flag: Bool) {
